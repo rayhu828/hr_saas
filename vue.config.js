@@ -37,7 +37,9 @@ module.exports = {
       errors: true
     },
     proxy: {
+      // 当请求地址中包含'/api'时，会触发代理机制
       '/api': {
+        // 要代理的服务器的地址，这里不用写'/api'，代理后的服务器地址为'http://ihrm-java.itheima.net/api'
         target: 'http://ihrm-java.itheima.net',
         changeOrigin: true
       }

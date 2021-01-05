@@ -14,8 +14,8 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img src="@/assets/common/bigUserHeader.png" class="user-avatar" />
-          <span class="name">管理员</span>
+          <img v-imageerror="defaultImg" :src="staffPhoto" class="user-avatar" />
+          <span class="name">{{username}}</span>
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -40,12 +40,18 @@ import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 
 export default {
+  data() {
+    return {
+      // 为了防止打包以后路径出现问题，这里需要用require对路径进行处理
+      defaultImg: require('@/assets/common/head.jpg')
+    }
+  },
   components: {
     // Breadcrumb,
     Hamburger
   },
   computed: {
-    ...mapGetters(['sidebar', 'avatar'])
+    ...mapGetters(['sidebar', 'avatar', 'username', 'staffPhoto'])
   },
   methods: {
     toggleSideBar() {

@@ -21,6 +21,16 @@ export function getUserInfo() {
   })
 }
 
+/**
+ * 获取用户基本信息接口
+ */
+export function getUserDetailById(id) {
+  return request({
+    url: `/sys/user/${id}`,
+    method: 'get'
+  })
+}
+
 export function logout() {
   
 }

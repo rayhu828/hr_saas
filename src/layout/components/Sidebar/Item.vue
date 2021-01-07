@@ -1,6 +1,8 @@
 <script>
+import { render } from 'nprogress'
 export default {
   name: 'MenuItem',
+  // 函数式组件
   functional: true,
   props: {
     icon: {
@@ -27,6 +29,7 @@ export default {
     if (title) {
       vnodes.push(<span slot='title'>{(title)}</span>)
     }
+    // render函数返回一个结构体
     return vnodes
   }
 }

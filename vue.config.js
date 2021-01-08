@@ -14,6 +14,30 @@ const name = defaultSettings.title || 'vue Admin Template' // page title
 // You can change the port by the following methods:
 // port = 9528 npm run dev OR npm run dev --port = 9528
 const port = process.env.port || process.env.npm_config_port || 9528 // dev port
+let cdn = { css: [], js: [] }
+let externals = {}
+const isProd = process.env.NODE_ENV === 'production' // 判断是否是生产环境
+if (isProd) {
+  // 只有生产环境 才有必要 去做排除和cdn的注入
+  externals = {
+    'element-ui': 'ELEMENT',
+    'xlsx': 'XLSX',
+    'vue': 'Vue'
+  }
+  cdn = {
+    css: [ // element-ui css
+      // 样式表
+      'https://unpkg.com/element-ui/lib/theme-chalk/index.css'],
+    js: [
+      // vue must at first!
+      'https://unpkg.com/vue/dist/vue.js', // vuejs
+      // element-ui js
+      'https://unpkg.com/element-ui/lib/index.js', // elementUI
+      'https://cdn.jsdelivr.net/npm/xlsx@0.16.6/dist/jszip.min.js',
+      'https://cdn.jsdelivr.net/npm/xlsx@0.16.6/dist/xlsx.full.min.js'
+    ]
+  }
+}
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
@@ -36,12 +60,14 @@ module.exports = {
       warnings: false,
       errors: true
     },
+    // 配置反向代理
     proxy: {
-      // 当请求地址中包含'/api'时，会触发代理机制
+      // 当地址中有/api的时候会触发代理机制
       '/api': {
-        // 要代理的服务器的地址，这里不用写'/api'，代理后的服务器地址为'http://ihrm-java.itheima.net/api'
-        target: 'http://ihrm-java.itheima.net',
-        changeOrigin: true
+        target: 'http://ihrm-java.itheima.net/', // 要代理的服务器地址  这里不用写 api
+        changeOrigin: true // 是否跨域
+        // 重写路径
+        // pathRewrite: {}
       }
     }
   },
@@ -53,7 +79,12 @@ module.exports = {
       alias: {
         '@': resolve('src')
       }
-    }
+    },
+    // 要排除的包名
+    // key(是要排除的包名): value(实际上是实际引入的包的全局的变量名 )
+    // 因为要排除element-ui 所以后面要引入CDN文件 CDN文件中有ELEMENTUI的全局变量名
+    // externals首先会排除掉 定义的包名,空出来的位置  会用变量来替换
+    externals: externals
   },
   chainWebpack(config) {
     // it can improve the speed of the first screen, it is recommended to turn on preload
@@ -66,7 +97,13 @@ module.exports = {
         include: 'initial'
       }
     ])
-
+    //  注入cdn变量
+    // 这行代码 会在执行打包的时候 执行 就会将cdn变量注入到 html模板中
+    config.plugin('html').tap((args) => {
+      // args 是注入html模板的一个变量
+      args[0].cdn = cdn // 后面的cdn就是定义的变量
+      return args // 需要返回这个参数
+    })
     // when there are many pages, it will cause too many meaningless requests
     config.plugins.delete('prefetch')
 

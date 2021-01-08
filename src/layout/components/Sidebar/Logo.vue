@@ -53,7 +53,8 @@ export default {
       width: 140px;
       vertical-align: middle;
       margin-right: 12px;
-    }
+}
+// 大图样式
 
     & .sidebar-title {
       display: inline-block;
@@ -74,5 +75,6 @@ export default {
       height: 32px;
     }
   }
+// 小图样式
 }
 </style>

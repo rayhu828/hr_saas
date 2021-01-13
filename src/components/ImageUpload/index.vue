@@ -108,8 +108,8 @@ export default {
       if (params.file) {
         // 执行上传操作
         cos.putObject({
-          Bucket: 'shuiruohanyu-106-1302806742', // 存储桶
-          Region: 'ap-beijing', // 地域
+          Bucket: 'hurui-1304757498', // 存储桶
+          Region: 'ap-nanjing', // 地域
           Key: params.file.name, // 文件名
           Body: params.file, // 要上传的文件对象
           StorageClass: 'STANDARD', // 上传的模式类型 直接默认 标准模式即可

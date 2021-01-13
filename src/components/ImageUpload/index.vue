@@ -30,8 +30,8 @@ import COS from 'cos-js-sdk-v5' // 引入腾讯云cos包
 // 实例化COS对象
 const cos = new COS({
   // 同学们拷贝自己的秘钥和key 只有用自己的key和自己的秘钥才能上传到自己的存储桶里面
-  SecretId: 'AKID0mqfEWqlUzIbeSkGRL6c7ML6c0B93To9', // 身份识别 ID
-  SecretKey: 'JFwNZdeRF2iOp03FFsGNDm44vWFitmNF' // 身份密钥
+  SecretId: 'AKIDCCwynoun7ByYVChmkSvERNUMyP3RdRfh', // 身份识别 ID
+  SecretKey: 'vZaXGjwu1vhPwVptjL8ejdHennsFRV7T' // 身份密钥
 })
 export default {
   data() {
@@ -71,6 +71,12 @@ export default {
       // file是当前的文件 fileList是当前的最新数组 this.fileList
     //   console.log(file)
       // 如果当前fileList中没有该文件的话 就往里进行追加
+      // if(!this.fileList.some(item => item.uid === file.uid)) {
+      //   this.fileList.push(file)
+      // }
+      // this.fileList = fileList
+      // 添加图片，上传图片成功和上传图片失败都会执行changeFile函数
+      // 上传图片失败，fileList参数是空数组
       this.fileList = fileList.map(item => item)
       // 这里为何暂时不成功呢  ？ 因为现在还没有上传 所有第二次进来的数据 一定是个空的
     // 如果完成上传动作了 第一次进入 和第二次进去的fileList的长度应该都是1 应该都有数据

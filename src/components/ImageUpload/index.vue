@@ -131,7 +131,9 @@ export default {
               // 去找谁的uid等于刚刚记录下来的id
               if (item.uid === this.currentFileUid) {
                 // 将成功的地址赋值给原来的url属性
-                return { url: 'http://' + data.Location, upload: true }
+                item.url = 'http://' + data.Location
+                item.upload = true
+                // return { url: 'http://' + data.Location, upload: true }
                 // upload 为true 表示这张图片已经上传完毕 这个属性要为我们后期应用的时候做标记
                 // 保存  => 图片有大有小 => 上传速度有快又慢 =>要根据有没有upload这个标记来决定是否去保存
               }
